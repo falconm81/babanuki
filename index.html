@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="babanuki.js"></script>
+<title>ババ抜き</title>
+</head>
+<body>
+<div id="title" style="position: absolute; left: 10px; top: 10px"><b>ババ抜き</b></div>
+<div id="message" style="position: absolute; left: 10px; top: 50px">開始を押してください。</div>
+<button id="start" style="position: absolute; left: 10px; top: 100px">開始</button>
+<br><br>
+<div id="com1" style="position: absolute; left: 10px; top: 150px">プレイヤー</div>
+<img src="trump.png" id="card00" style="position: absolute; left: 150px; top: 150px; clip: rect(0px 101px 76px 50px);">
+<img src="trump.png" id="card01" style="position: absolute; left: 200px; top: 150px; clip: rect(0px 101px 76px 50px); display:none;">
+<img src="trump.png" id="card02" style="position: absolute; left: 300px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card03" style="position: absolute; left: 350px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card04" style="position: absolute; left: 400px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card05" style="position: absolute; left: 450px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card06" style="position: absolute; left: 500px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card07" style="position: absolute; left: 550px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card08" style="position: absolute; left: 600px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card09" style="position: absolute; left: 650px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card010" style="position: absolute; left: 700px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card011" style="position: absolute; left: 750px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card012" style="position: absolute; left: 800px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card013" style="position: absolute; left: 850px; top: 150px; clip: rect(0px 51px 76px 0px); display:none;">
+<div id="com1" style="position: absolute; left: 10px; top: 250px">コンピューター1</div>
+<img src="trump.png" id="card10" style="position: absolute; left: 200px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card11" style="position: absolute; left: 250px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card12" style="position: absolute; left: 300px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card13" style="position: absolute; left: 350px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card14" style="position: absolute; left: 400px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card15" style="position: absolute; left: 450px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card16" style="position: absolute; left: 500px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card17" style="position: absolute; left: 550px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card18" style="position: absolute; left: 600px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card19" style="position: absolute; left: 650px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card110" style="position: absolute; left: 700px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card111" style="position: absolute; left: 750px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card112" style="position: absolute; left: 800px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card113" style="position: absolute; left: 850px; top: 250px; clip: rect(0px 51px 76px 0px); display:none;">
+<div id="com2" style="position: absolute; left: 10px; top: 350px">コンピューター2</div>
+<img src="trump.png" id="card20" style="position: absolute; left: 200px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card21" style="position: absolute; left: 250px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card22" style="position: absolute; left: 300px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card23" style="position: absolute; left: 350px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card24" style="position: absolute; left: 400px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card25" style="position: absolute; left: 450px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card26" style="position: absolute; left: 500px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card27" style="position: absolute; left: 550px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card28" style="position: absolute; left: 600px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card29" style="position: absolute; left: 650px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card210" style="position: absolute; left: 700px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card211" style="position: absolute; left: 750px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card212" style="position: absolute; left: 800px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card213" style="position: absolute; left: 850px; top: 350px; clip: rect(0px 51px 76px 0px); display:none;">
+<div id="com3" style="position: absolute; left: 10px; top: 450px">コンピューター3</div>
+<img src="trump.png" id="card30" style="position: absolute; left: 200px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card31" style="position: absolute; left: 250px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card32" style="position: absolute; left: 300px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card33" style="position: absolute; left: 350px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card34" style="position: absolute; left: 400px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card35" style="position: absolute; left: 450px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card36" style="position: absolute; left: 500px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card37" style="position: absolute; left: 550px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card38" style="position: absolute; left: 600px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card39" style="position: absolute; left: 650px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card310" style="position: absolute; left: 700px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card311" style="position: absolute; left: 750px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card312" style="position: absolute; left: 800px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+<img src="trump.png" id="card313" style="position: absolute; left: 850px; top: 450px; clip: rect(0px 51px 76px 0px); display:none;">
+
+</body>
+</html>
