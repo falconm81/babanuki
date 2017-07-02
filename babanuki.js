@@ -40,28 +40,21 @@ $(document).ready(function(){
       cardChk(i);
     }
 
-    //var t = 200 + 1*50 - 0%13*50;
-    //alert(t);
-    display(0,1,7);
-    //display(1,0,3);
-
-    //var t = ((Math.floor(1/13)+1)*50)+1;
-    //alert(t);
-    //$("#card00").css("left", "200px");
-    //$("#card00").css("top", "75px");
-    //$("#card00").css("clip","rect(75px 51px 151px 0px)");
-    //$("#card00").css("clip","rect(150px 51px 226px 0px)");
-    for(var j=0; j<4; j++){
-    for(var i=0; i<handcard[j].length; i++){
-      if (handcard[j][i]!=52){
-        display(i,j,handcard[j][i]);
+    <!-- プレイヤーのカードを表示する -->
+    for(var i=0; i<handcard[0].length; i++){
+      if (handcard[0][i]!=52){
+        display(i,0,handcard[0][i]);
       } else{
-        displayJoker(i,j,handcard[j][i]);
+        displayJoker(i,0,handcard[0][i]);
       }
     }
-  }
-  //  }
-    //$("#card01").css("position", "absolute");
+
+    <!-- コンピューターのカードを表示する -->
+    for(var j=1; j<4; j++){
+      for(var i=0; i<handcard[j].length; i++){
+        displayBack(i,j,handcard[j][i]);
+      }
+    }
 
   });
 
@@ -135,6 +128,18 @@ $(document).ready(function(){
     var left = x*50;
     var top = y*100 - 300;
     var rect = 'rect( 450px 251px 526px 200px)';
+    $(posStr).css("left", left);
+    $(posStr).css("top", top);
+    $(posStr).css("clip", rect);
+    $(posStr).css("visibility","visible");
+  }
+
+  <!-- 指定位置に裏を表示する -->
+  function displayBack( x, y ){
+    var posStr = '#card' + y + x;
+    var left = x*50 - 100;
+    var top = y*100 - 300;
+    var rect = 'rect( 450px 351px 526px 300px)';
     $(posStr).css("left", left);
     $(posStr).css("top", top);
     $(posStr).css("clip", rect);
