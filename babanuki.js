@@ -5,6 +5,8 @@ $(document).ready(function(){
     handcard[i] = new Array();
   }
 
+  var turnPlayer;
+
 
   <!-- 開始ボタン押し -->
   $("#start").on("click", function(){
@@ -27,8 +29,11 @@ $(document).ready(function(){
       deck[rand2] = tmp
     }
 
+    <!-- 最初のプレイヤーをランダムで決める -->
+    turnPlayer = Math.floor( Math.random() * 4);
+
     <!-- 手札にカードを分ける -->
-    var idx = Math.floor( Math.random() * 4);
+    idx = turnPlayer;
     for(var i=0; i<53; i++){
       handcard[idx].push(deck[i]);
       idx++;
@@ -56,7 +61,34 @@ $(document).ready(function(){
       }
     }
 
+    exeNextPlayer();
   });
+
+  <!-- 次のプレイヤーの処理をする -->
+  function exeNextPlayer(){
+    if (turnPlayer == 0){
+      displayMessage("コンピューター1からカードを取ってください。");
+    }else{
+      displayMessage("コンピューター"+ (turnPlayer) +"がカードを取ります。");
+      setTimeout(function(){getCardComputer();}, 1000);
+    }
+  }
+
+  <!-- コンピューターがカードを取る -->
+　function getCardComputer(){
+
+    displayMessage("コンピューター"+ (turnPlayer) +"がカードを捨てます。");
+    setTimeout(function(){throwCardComputer();}, 1000);
+  }
+
+  <!-- コンピューターがカードを捨てる -->
+　function throwCardComputer(){
+
+    turnPlayer++;
+    if(turnPlayer==4){turnPlayer=0;}
+    exeNextPlayer();
+  }
+
 
   <!-- 同じ数値のカードを確認する。 -->
   <!-- 同じ数値のカードは、-1にする。 -->
@@ -144,5 +176,10 @@ $(document).ready(function(){
     $(posStr).css("top", top);
     $(posStr).css("clip", rect);
     $(posStr).css("visibility","visible");
+  }
+
+  <!-- メッセージを表示する -->
+  function displayMessage(str){
+    $("#message").text(str);
   }
 });
