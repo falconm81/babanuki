@@ -1,8 +1,10 @@
 $(document).ready(function(){
 
   var handcard = new Array();
+  var fin = new Array();
   for(var i=0; i<4; i++) {
     handcard[i] = new Array();
+    fin[i] = 0;
   }
 
   var turnPlayer;
@@ -60,14 +62,18 @@ $(document).ready(function(){
         displayBack(i,j,handcard[j][i]);
       }
     }
-
     exeNextPlayer();
   });
 
   <!-- 次のプレイヤーの処理をする -->
   function exeNextPlayer(){
     if (turnPlayer == 0){
-      displayMessage("コンピューター1からカードを取ってください。");
+      for(var i=1; i<4; i++){
+        if( fin[i]==0){
+          break;
+        }
+      }
+      displayMessage("コンピューター" + (i) + "からカードを取ってください。");
     }else{
       displayMessage("コンピューター"+ (turnPlayer) +"がカードを取ります。");
       setTimeout(function(){getCardComputer();}, 1000);
@@ -76,6 +82,45 @@ $(document).ready(function(){
 
   <!-- コンピューターがカードを取る -->
 　function getCardComputer(){
+    <!-- 誰から取るかを決める -->
+    var getIdx = turnPlayer;
+    for( var i=0; i<3; i++){
+      if( getIdx == 3 ){
+        getIdx = 0;
+        break;
+      }
+      getIdx++;
+      if( fin[getIdx]==0 ){
+          break;
+      }
+    }
+
+    <!-- どのカードを取るか決める -->
+    var getCardIdx = Math.floor( Math.random() * handcard[getIdx].length);
+
+    <!-- 取った人のカードを増やす -->
+    handcard[turnPlayer].push(handcard[getIdx][getCardIdx]);
+    displayBack( handcard[turnPlayer].length-1, turnPlayer);
+
+    <!-- 取られた人のカードを減らす -->
+    handcard[getIdx][getCardIdx]=-1;
+    cardSride(getIdx);
+    if( getIdx == 0 ){
+      for( var i=0; i < handcard[0].length; i++){
+        if (handcard[0][i]!=52){
+          display(i,0,handcard[0][i]);
+        } else{
+          displayJoker(i,0);
+        }
+      }
+
+      for( var j=i; j<13; j++){
+        nodisplay(j,0);
+      }
+    }else{
+      nodisplay(handcard[getIdx].length, getIdx );
+    }
+
 
     displayMessage("コンピューター"+ (turnPlayer) +"がカードを捨てます。");
     setTimeout(function(){throwCardComputer();}, 1000);
@@ -84,11 +129,82 @@ $(document).ready(function(){
   <!-- コンピューターがカードを捨てる -->
 　function throwCardComputer(){
 
+    cardChk(turnPlayer);
+    if( handcard[turnPlayer].length == 0){
+      <!-- コンピューターの勝利処理を書く -->
+    }
+
+    for( var i=0; i < handcard[turnPlayer].length; i++){
+      displayBack(i,turnPlayer);
+    }
+
+    for( var j=i; j<13; j++){
+      nodisplay(j,turnPlayer);
+    }
+
     turnPlayer++;
     if(turnPlayer==4){turnPlayer=0;}
     exeNextPlayer();
   }
 
+  <!-- プレイヤーがカードを捨てる -->
+  function throwCardPlayer(){
+    cardChk(0);
+
+    if( handcard[0].length == 0){
+      <!-- プレイヤーの勝利処理を書く -->
+      return;
+    }
+    for( var i=0; i < handcard[0].length; i++){
+      if (handcard[0][i]!=52){
+        display(i,0,handcard[0][i]);
+      } else{
+        displayJoker(i,0);
+      }
+    }
+
+    for( var j=i; j<13; j++){
+      nodisplay(j,0);
+    }
+
+    for( var i=1; i<4; i++){
+      turnPlayer = i;
+      if( fin[i] == 0 )
+      {
+        break;
+      }
+    }
+    exeNextPlayer();
+  }
+
+  <!-- カードをクリックしたときの処理 -->
+  function clickCard( x, y ){
+    if( turnPlayer != 0 ){return;}
+    for( var i=1; i<4; i++){
+      if(fin[i]==0){
+        if( y == i ){
+          break;
+        }else{
+          return;
+        }
+      }
+    }
+
+    <!-- プレイヤーのカードを追加 -->
+    handcard[0].push(handcard[y][x]);
+    if(handcard[y][x]!=52){
+      display( handcard[0].length-1, 0, handcard[y][x]);
+    }else{
+      displayJoker(handcard[0].length-1,0);
+    }
+
+    <!-- コンピューターのカードを削除 -->
+    handcard[y][x]=-1;
+    nodisplay( handcard[y].length-1, y);
+    cardSride(y);
+
+    setTimeout(function(){throwCardPlayer();}, 1000);
+  }
 
   <!-- 同じ数値のカードを確認する。 -->
   <!-- 同じ数値のカードは、-1にする。 -->
@@ -182,4 +298,48 @@ $(document).ready(function(){
   function displayMessage(str){
     $("#message").text(str);
   }
+
+  <!-- クリック -->
+  $("#card10").click(function(){clickCard(0,1)});
+  $("#card11").click(function(){clickCard(1,1)});
+  $("#card12").click(function(){clickCard(2,1)});
+  $("#card13").click(function(){clickCard(3,1)});
+  $("#card14").click(function(){clickCard(4,1)});
+  $("#card15").click(function(){clickCard(5,1)});
+  $("#card16").click(function(){clickCard(6,1)});
+  $("#card17").click(function(){clickCard(7,1)});
+  $("#card18").click(function(){clickCard(8,1)});
+  $("#card19").click(function(){clickCard(9,1)});
+  $("#card110").click(function(){clickCard(10,1)});
+  $("#card111").click(function(){clickCard(11,1)});
+  $("#card112").click(function(){clickCard(12,1)});
+  $("#card113").click(function(){clickCard(13,1)});
+  $("#card20").click(function(){clickCard(0,2)});
+  $("#card21").click(function(){clickCard(1,2)});
+  $("#card22").click(function(){clickCard(2,2)});
+  $("#card23").click(function(){clickCard(3,2)});
+  $("#card24").click(function(){clickCard(4,2)});
+  $("#card25").click(function(){clickCard(5,2)});
+  $("#card26").click(function(){clickCard(6,2)});
+  $("#card27").click(function(){clickCard(7,2)});
+  $("#card28").click(function(){clickCard(8,2)});
+  $("#card29").click(function(){clickCard(9,2)});
+  $("#card210").click(function(){clickCard(10,2)});
+  $("#card211").click(function(){clickCard(11,2)});
+  $("#card212").click(function(){clickCard(12,2)});
+  $("#card213").click(function(){clickCard(13,2)});
+  $("#card30").click(function(){clickCard(0,3)});
+  $("#card31").click(function(){clickCard(1,3)});
+  $("#card32").click(function(){clickCard(2,3)});
+  $("#card33").click(function(){clickCard(3,3)});
+  $("#card34").click(function(){clickCard(4,3)});
+  $("#card35").click(function(){clickCard(5,3)});
+  $("#card36").click(function(){clickCard(6,3)});
+  $("#card37").click(function(){clickCard(7,3)});
+  $("#card38").click(function(){clickCard(8,3)});
+  $("#card39").click(function(){clickCard(9,3)});
+  $("#card310").click(function(){clickCard(10,3)});
+  $("#card311").click(function(){clickCard(11,3)});
+  $("#card312").click(function(){clickCard(12,3)});
+  $("#card313").click(function(){clickCard(13,3)});
 });
