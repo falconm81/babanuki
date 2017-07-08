@@ -299,6 +299,11 @@ $(document).ready(function(){
     $("#message").text(str);
   }
 
+  <!-- 順位を表示する -->
+  function displayRank( y, rank){
+    $("#rank"+y).text(rank+"位");
+  }
+
   <!-- クリック -->
   $("#card10").click(function(){clickCard(0,1)});
   $("#card11").click(function(){clickCard(1,1)});
