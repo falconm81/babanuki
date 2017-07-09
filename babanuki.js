@@ -26,15 +26,7 @@ $(document).ready(function(){
     }
 
     <!-- 山札シャッフル -->
-    for(var i=0; i<150; i++) {
-      var tmp;
-      var rand1 = Math.floor( Math.random() * 53);
-      var rand2 = Math.floor( Math.random() * 53);
-
-      tmp = deck[rand1];
-      deck[rand1] = deck[rand2];
-      deck[rand2] = tmp
-    }
+    shuffle(deck,150);
 
     <!-- 最初のプレイヤーをランダムで決める -->
     turnPlayer = Math.floor( Math.random() * 4);
@@ -142,6 +134,8 @@ $(document).ready(function(){
 
     cardChk(turnPlayer);
 
+    shuffle(handcard[turnPlayer], 10);
+
     dispComputerAllCard(turnPlayer);
 
     <!-- コンピューターのカードがなくなった時の処理 -->
@@ -202,6 +196,20 @@ $(document).ready(function(){
     setRank(y);
 
     setTimeout(function(){throwCardPlayer();}, 1000);
+  }
+
+  <!-- カードをシャッフルする -->
+  function shuffle( cards, num ){
+    var n = cards.length;
+    for(var i=0; i<num; i++) {
+      var tmp;
+      var rand1 = Math.floor( Math.random() * n);
+      var rand2 = Math.floor( Math.random() * n);
+
+      tmp = cards[rand1];
+      cards[rand1] = cards[rand2];
+      cards[rand2] = tmp
+    }
   }
 
   <!-- 同じ数値のカードを確認する。 -->
