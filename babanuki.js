@@ -48,22 +48,29 @@ $(document).ready(function(){
     }
 
     <!-- プレイヤーのカードを表示する -->
-    for(var i=0; i<handcard[0].length; i++){
-      if (handcard[0][i]!=52){
-        display(i,0,handcard[0][i]);
-      } else{
-        displayJoker(i,0,handcard[0][i]);
-      }
-    }
+    dispPlayerAllCard();
 
     <!-- コンピューターのカードを表示する -->
-    for(var j=1; j<4; j++){
-      for(var i=0; i<handcard[j].length; i++){
-        displayBack(i,j,handcard[j][i]);
-      }
+    for(var i=1; i<4; i++){
+      dispComputerAllCard(i)
     }
     exeNextPlayer();
   });
+
+  <!-- 次のプレイヤーを決定する -->
+  function decideNextPlayer(){
+    for( var i=0; i<4; i++ ){
+      turnPlayer++;
+      if( turnPlayer == 4 ){
+        turnPlayer=0;
+        break;
+      }else{
+        if( fin[turnPlayer] == 0 ){
+          break;
+        }
+      }
+    }
+  }
 
   <!-- 次のプレイヤーの処理をする -->
   function exeNextPlayer(){
@@ -105,76 +112,51 @@ $(document).ready(function(){
     <!-- 取られた人のカードを減らす -->
     handcard[getIdx][getCardIdx]=-1;
     cardSride(getIdx);
-    if( getIdx == 0 ){
-      for( var i=0; i < handcard[0].length; i++){
-        if (handcard[0][i]!=52){
-          display(i,0,handcard[0][i]);
-        } else{
-          displayJoker(i,0);
-        }
-      }
 
-      for( var j=i; j<13; j++){
-        nodisplay(j,0);
-      }
+    if( getIdx == 0 ){
+      dispPlayerAllCard();
     }else{
-      nodisplay(handcard[getIdx].length, getIdx );
+      dispComputerAllCard(getIdx);
     }
 
+    <!-- 取られた人のカードがなくなった時の処理 -->
+    var ret = setRank(getIdx);
 
-    displayMessage("コンピューター"+ (turnPlayer) +"がカードを捨てます。");
-    setTimeout(function(){throwCardComputer();}, 1000);
+    if( ret == 0 ){
+      displayMessage("コンピューター"+ (turnPlayer) +"がカードを捨てます。");
+      setTimeout(function(){throwCardComputer();}, 1000);
+    }
   }
 
   <!-- コンピューターがカードを捨てる -->
 　function throwCardComputer(){
 
     cardChk(turnPlayer);
-    if( handcard[turnPlayer].length == 0){
-      <!-- コンピューターの勝利処理を書く -->
-    }
 
-    for( var i=0; i < handcard[turnPlayer].length; i++){
-      displayBack(i,turnPlayer);
-    }
+    dispComputerAllCard(turnPlayer);
 
-    for( var j=i; j<13; j++){
-      nodisplay(j,turnPlayer);
-    }
+    <!-- コンピューターのカードがなくなった時の処理 -->
+    var ret = setRank(turnPlayer);
 
-    turnPlayer++;
-    if(turnPlayer==4){turnPlayer=0;}
-    exeNextPlayer();
+    if( ret == 0 ){
+      <!-- 次のプレイヤーを検索 -->
+      decideNextPlayer();
+      exeNextPlayer();
+    }
   }
 
   <!-- プレイヤーがカードを捨てる -->
   function throwCardPlayer(){
     cardChk(0);
 
-    if( handcard[0].length == 0){
-      <!-- プレイヤーの勝利処理を書く -->
-      return;
-    }
-    for( var i=0; i < handcard[0].length; i++){
-      if (handcard[0][i]!=52){
-        display(i,0,handcard[0][i]);
-      } else{
-        displayJoker(i,0);
-      }
-    }
+    dispPlayerAllCard();
 
-    for( var j=i; j<13; j++){
-      nodisplay(j,0);
+    <!-- カードがなくなった時の処理 -->
+    var ret = setRank(turnPlayer);
+    if( ret == 0 ){
+      decideNextPlayer();
+      exeNextPlayer();
     }
-
-    for( var i=1; i<4; i++){
-      turnPlayer = i;
-      if( fin[i] == 0 )
-      {
-        break;
-      }
-    }
-    exeNextPlayer();
   }
 
   <!-- カードをクリックしたときの処理 -->
@@ -202,6 +184,9 @@ $(document).ready(function(){
     handcard[y][x]=-1;
     nodisplay( handcard[y].length-1, y);
     cardSride(y);
+
+    <!-- コンピューターのカードがなくなった時の処理 -->
+    setRank(y);
 
     setTimeout(function(){throwCardPlayer();}, 1000);
   }
@@ -240,6 +225,72 @@ $(document).ready(function(){
       }
     }
     handcard[idx] = tmpArr;
+  }
+
+  <!-- プレイヤーの全カードを表示する -->
+  function dispPlayerAllCard(){
+
+    <!-- 手札を表示する -->
+    for( var i=0; i < handcard[0].length; i++){
+      if (handcard[0][i]!=52){
+        display(i,0,handcard[0][i]);
+      } else{
+        displayJoker(i,0);
+      }
+    }
+
+    <!-- 手札でないものは非表示する -->
+    for( var j=i; j<13; j++){
+      nodisplay(j,0);
+    }
+  }
+
+  <!-- コンピューターの全カードを表示する -->
+  function dispComputerAllCard(idx){
+
+    <!-- 手札を裏で表示する -->
+    for( var i=0; i < handcard[idx].length; i++){
+      displayBack(i,idx);
+    }
+
+    <!-- 手札でないものは非表示する -->
+    for( var j=i; j<13; j++){
+      nodisplay(j,idx);
+    }
+  }
+
+  <!-- ランキングを設定 -->
+  <!-- 戻り値 0:ゲームを続ける 1:ゲームを終了する -->
+  function setRank(idx){
+    if( handcard[idx].length == 0 ){
+      var rank = 1;
+      for( var i=0; i<4; i++ ){
+        if( fin[i] == 1 ){
+          rank++;
+        }
+      }
+      fin[idx] = 1;
+
+      <!-- プレイヤーの勝利 -->
+      if( idx == 0 ){
+        alert(rank + "位です！");
+        displayRank( idx, rank );
+        return 1;
+      }else{
+        if( rank == 3 ){
+          <!-- コンピューター全員終了、プレイヤー負け -->
+          alert("4位です！");
+          displayRank( idx, rank );
+          displayRank( 0, 4 );
+          return 1;
+        }else{
+          <!-- コンピューターまだ残っている -->
+          displayRank( idx, rank );
+          return 0;
+        }
+      }
+    }
+    return 0;
   }
 
   <!-- 指定位置のカードを非表示にする -->
