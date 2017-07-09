@@ -60,6 +60,8 @@ $(document).ready(function(){
       dispComputerAllCard(i)
     }
     exeNextPlayer();
+
+    disabledStart();
   });
 
   <!-- 次のプレイヤーを決定する -->
@@ -130,6 +132,8 @@ $(document).ready(function(){
     if( ret == 0 ){
       displayMessage("コンピューター"+ (turnPlayer) +"がカードを捨てます。");
       setTimeout(function(){throwCardComputer();}, 1000);
+    }else{
+      enabledStart();
     }
   }
 
@@ -147,6 +151,8 @@ $(document).ready(function(){
       <!-- 次のプレイヤーを検索 -->
       decideNextPlayer();
       exeNextPlayer();
+    }else{
+      enabledStart();
     }
   }
 
@@ -161,6 +167,8 @@ $(document).ready(function(){
     if( ret == 0 ){
       decideNextPlayer();
       exeNextPlayer();
+    }else{
+      enabledStart();
     }
   }
 
@@ -364,6 +372,17 @@ $(document).ready(function(){
   function nodisplayRank( y ){
     $("#rank"+y).text("");
   }
+
+  <!-- 開始ボタン無効化 -->
+  function disabledStart(){
+    $("#start").prop("disabled", true);
+  }
+
+  <!-- 開始ボタン有効化 -->
+  function enabledStart(){
+    $("#start").prop("disabled", false);
+  }
+
 
   <!-- クリック -->
   $("#card10").click(function(){clickCard(0,1)});
