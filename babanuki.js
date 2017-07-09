@@ -1,17 +1,22 @@
 $(document).ready(function(){
 
-  var handcard = new Array();
-  var fin = new Array();
-  for(var i=0; i<4; i++) {
-    handcard[i] = new Array();
-    fin[i] = 0;
-  }
-
+  var handcard;
+  var fin;
   var turnPlayer;
 
 
   <!-- 開始ボタン押し -->
   $("#start").on("click", function(){
+
+    <!-- 初期化 -->
+    handcard = new Array();
+    fin = new Array();
+    for(var i=0; i<4; i++) {
+      handcard[i] = new Array();
+      fin[i] = 0;
+      nodisplayRank(i);
+    }
+
     <!-- 山札 -->
     var deck = [];
 
@@ -353,6 +358,11 @@ $(document).ready(function(){
   <!-- 順位を表示する -->
   function displayRank( y, rank){
     $("#rank"+y).text(rank+"位");
+  }
+
+  <!-- 順位を非表示にする -->
+  function nodisplayRank( y ){
+    $("#rank"+y).text("");
   }
 
   <!-- クリック -->
