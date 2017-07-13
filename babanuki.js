@@ -134,7 +134,9 @@ $(document).ready(function(){
 
     cardChk(turnPlayer);
 
-    shuffle(handcard[turnPlayer], 10);
+    if ( handcard[turnPlayer].length != 0 ){
+      shuffle(handcard[turnPlayer], 10);
+    }
 
     dispComputerAllCard(turnPlayer);
 
